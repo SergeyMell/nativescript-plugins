@@ -1,6 +1,5 @@
 import { Component, NgZone } from '@angular/core';
 import { DemoSharedNativescriptSvg } from '@demo/shared';
-import {} from '@sergeymell/nativescript-svg';
 
 @Component({
 	selector: 'demo-nativescript-svg',

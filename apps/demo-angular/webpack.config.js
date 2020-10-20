@@ -78,7 +78,7 @@ module.exports = env => {
   let tsConfigPath = resolve(projectRoot, tsConfigName);
   const tsConfigTnsPath = resolve(projectRoot, tsConfigTnsName);
   if (fs.existsSync(tsConfigTnsPath)) {
-    // still support shared angular app configurations 
+    // still support shared angular app configurations
     tsConfigName = tsConfigTnsName;
     tsConfigPath = tsConfigTnsPath;
   }
@@ -104,6 +104,7 @@ module.exports = env => {
   const copyTargets = [
     { from: 'assets/**', noErrorOnMissing: true, globOptions: { dot: false, ...copyIgnore } },
     { from: 'fonts/**', noErrorOnMissing: true, globOptions: { dot: false, ...copyIgnore } },
+    { from: '**/*.svg', noErrorOnMissing: true, globOptions: { dot: false, ...copyIgnore } },
   ];
 
   if (!production) {
@@ -375,7 +376,7 @@ module.exports = env => {
         process: 'global.process'
       }),
       // Remove all files from the out dir.
-      new CleanWebpackPlugin({ 
+      new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: itemsToClean,
         verbose: !!verbose
       }),
