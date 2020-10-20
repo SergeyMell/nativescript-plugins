@@ -1,0 +1,137 @@
+{
+	"version": 1,
+	"projects": {
+		"demo": {
+			"root": "apps/demo/",
+			"sourceRoot": "apps/demo/src",
+			"projectType": "application",
+			"prefix": "demo",
+			"architect": {
+				"ios": {
+					"builder": "@nrwl/workspace:run-commands",
+					"options": {
+						"commands": ["ns debug ios --no-hmr --emulator --env.testing"],
+						"cwd": "apps/demo",
+						"parallel": false
+					}
+				},
+				"android": {
+					"builder": "@nrwl/workspace:run-commands",
+					"options": {
+						"commands": ["ns debug android --no-hmr --emulator --env.testing"],
+						"cwd": "apps/demo",
+						"parallel": false
+					}
+				},
+				"clean": {
+					"builder": "@nrwl/workspace:run-commands",
+					"options": {
+						"commands": ["ns clean", "npm i"],
+						"cwd": "apps/demo",
+						"parallel": false
+					}
+				}
+			}
+		},
+		"demo-angular": {
+			"root": "apps/demo-angular/",
+			"sourceRoot": "apps/demo-angular/src",
+			"projectType": "application",
+			"prefix": "demo",
+			"architect": {
+				"ios": {
+					"builder": "@nrwl/workspace:run-commands",
+					"options": {
+						"commands": ["ns debug ios --no-hmr --emulator --env.testing"],
+						"cwd": "apps/demo-angular",
+						"parallel": false
+					}
+				},
+				"android": {
+					"builder": "@nrwl/workspace:run-commands",
+					"options": {
+						"commands": ["ns debug android --no-hmr --emulator --env.testing"],
+						"cwd": "apps/demo-angular",
+						"parallel": false
+					}
+				},
+				"clean": {
+					"builder": "@nrwl/workspace:run-commands",
+					"options": {
+						"commands": ["ns clean", "npm i"],
+						"cwd": "apps/demo-angular",
+						"parallel": false
+					}
+				}
+			}
+		},
+		"all": {
+			"root": "packages",
+			"projectType": "library",
+			"architect": {
+				"build": {
+					"builder": "@nrwl/workspace:run-commands",
+					"outputs": ["dist/packages"],
+					"options": {
+						"commands": ["nx run nativescript-svg:build.all"],
+						"parallel": false
+					}
+				},
+				"focus": {
+					"builder": "@nrwl/workspace:run-commands",
+					"outputs": ["dist/packages"],
+					"options": {
+						"commands": ["nx g @nativescript/plugin-tools:focus-packages"],
+						"parallel": false
+					}
+				}
+			}
+		},
+		"nativescript-svg": {
+			"root": "packages/nativescript-svg",
+			"sourceRoot": "packages/nativescript-svg",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/packages/nativescript-svg",
+						"tsConfig": "packages/nativescript-svg/tsconfig.json",
+						"packageJson": "packages/nativescript-svg/package.json",
+						"main": "packages/nativescript-svg/index.ts",
+						"assets": [
+							"packages/nativescript-svg/*.md",
+							"packages/nativescript-svg/index.d.ts",
+							"LICENSE",
+							{
+								"glob": "**/*",
+								"input": "packages/nativescript-svg/platforms/",
+								"output": "./platforms/"
+							}
+						]
+					}
+				},
+				"build.all": {
+					"builder": "@nrwl/workspace:run-commands",
+					"outputs": ["dist/packages"],
+					"options": {
+						"commands": ["nx run nativescript-svg:build", "node tools/scripts/build-finish.ts nativescript-svg"],
+						"parallel": false
+					}
+				},
+				"focus": {
+					"builder": "@nrwl/workspace:run-commands",
+					"outputs": ["dist/packages"],
+					"options": {
+						"commands": ["nx g @nativescript/plugin-tools:focus-packages nativescript-svg"],
+						"parallel": false
+					}
+				}
+			}
+		}
+	},
+	"cli": {
+		"defaultCollection": "@nrwl/workspace"
+	}
+}

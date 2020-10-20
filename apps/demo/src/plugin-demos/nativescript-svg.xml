@@ -1,0 +1,16 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd"
+      xmlns:svg="@sergeymell/nativescript-svg"
+      navigatingTo="navigatingTo" class="page">
+    <Page.actionBar>
+        <ActionBar title="nativescript-svg" icon="" class="action-bar">
+        </ActionBar>
+    </Page.actionBar>
+    <StackLayout class="p-20">
+        <ScrollView class="h-full">
+          <StackLayout>
+            <svg:SVGImage src="~/images/nativescript.svg" width="256" height="256" />
+            <svg:SVGImage src="~/images/spider.svg" width="335" height="269" />
+          </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</Page>
