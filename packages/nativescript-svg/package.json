@@ -1,7 +1,7 @@
 {
 	"name": "@sergeymell/nativescript-svg",
 	"version": "1.0.0",
-	"description": "Add a plugin description",
+	"description": "Nativescript SVG plugin",
 	"main": "index",
 	"typings": "index.d.ts",
 	"nativescript": {
@@ -12,7 +12,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/NativeScript/plugins.git"
+		"url": "https://github.com/SergeyMell/nativescript-plugins"
 	},
 	"keywords": [
 		"NativeScript",
@@ -22,14 +22,26 @@
 		"Android"
 	],
 	"author": {
-		"name": "NativeScript",
-		"email": "oss@nativescript.org"
+		"name": "Victor Sosa",
+		"email": "victor.sosa@peopleware.do"
 	},
-	"bugs": {
-		"url": "https://github.com/NativeScript/plugins/issues"
+  "contributors": [
+    {
+      "name": "Brad Martin",
+      "email": "bmartin@nstudio.io",
+      "url": "https://github.com/bradmartin"
+    },
+    {
+      "name": "Sergey Mell",
+      "email": "sergey.mell@agilie.com",
+      "url": "https://github.com/SergeyMell"
+    }
+  ],
+  "bugs": {
+		"url": "https://github.com/SergeyMell/nativescript-plugins/issues"
 	},
 	"license": "Apache-2.0",
-	"homepage": "https://github.com/NativeScript/plugins",
+	"homepage": "https://github.com/SergeyMell/nativescript-plugins",
 	"readmeFilename": "README.md",
 	"bootstrapper": "@nativescript/plugin-seed"
 }
