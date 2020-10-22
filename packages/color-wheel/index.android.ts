@@ -7,6 +7,82 @@ import { View } from '@nativescript/core';
  * https://medium.com/@info_25865/how-to-create-a-canvas-in-nativescript-90c47b067b4b
  */
 
+let touchListener: android.view.View.OnTouchListener;
+
+// NOTE: ClickListenerImpl is in function instead of directly in the module because we
+// want this file to be compatible with V8 snapshot. When V8 snapshot is created
+// JS is loaded into memory, compiled & saved as binary file which is later loaded by
+// Android runtime. Thus when snapshot is created we don't have Android runtime and
+// we don't have access to native types.
+function initializeClickListener(): void {
+  // Define ClickListener class only once.
+  if (touchListener) {
+    return;
+  }
+
+  // Interfaces decorator with implemented interfaces on this class
+  @NativeClass
+  @Interfaces([android.view.View.OnTouchListener])
+  class ClickListener extends java.lang.Object implements android.view.View.OnTouchListener {
+    public owner: ColorWheel;
+
+    constructor() {
+      super();
+      // Required by Android runtime when native class is extended through TypeScript.
+      return global.__native(this);
+    }
+
+    public onTouch(view: android.view.View, event: android.view.MotionEvent): boolean {
+      // When native button is clicked we raise 'tap' event.
+
+      const eventX = event.getX();
+      const eventY = event.getY();
+      const eventXY = Array.create('float', 2);
+      eventXY[0] = eventX;
+      eventXY[1] = eventY;
+
+      const invertMatrix = new android.graphics.Matrix();
+      (<android.widget.ImageView>view).getImageMatrix().invert(invertMatrix);
+
+      invertMatrix.mapPoints(eventXY);
+      let x = eventXY[0];
+      let y = eventXY[1];
+
+      console.log('touch event: ', eventX, eventY);
+      console.log('touch x: ', x, y);
+
+      const imgDrawable = (<android.widget.ImageView>view).getDrawable();
+      // @ts-ignore
+      const bitmap = imgDrawable.getBitmap();
+
+      //Limit x, y range within bitmap
+      if(x < 0){
+        x = 0;
+      }else if(x > bitmap.getWidth()-1){
+        x = bitmap.getWidth()-1;
+      }
+
+      if(y < 0){
+        y = 0;
+      }else if(y > bitmap.getHeight()-1){
+        y = bitmap.getHeight()-1;
+      }
+
+      const touchedRGB = bitmap.getPixel(x, y);
+
+      const color = java.lang.Integer.toHexString(touchedRGB)
+
+      console.log('color');
+      console.log(color);
+
+      return true;
+    }
+
+  }
+
+  touchListener = new ClickListener();
+}
+
 export class ColorWheel extends View {
 
   // added for TypeScript intellisense.
@@ -19,6 +95,8 @@ export class ColorWheel extends View {
     // Create new instance of android.widget.Button.
     const bitmap = android.graphics.Bitmap.createBitmap(100, 100, android.graphics.Bitmap.Config.ARGB_8888);
     const canvas = new android.graphics.Canvas(bitmap);
+
+    initializeClickListener();
 
     const huePaint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
     const saturationPaint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
@@ -53,13 +131,14 @@ export class ColorWheel extends View {
     saturationPaint.setShader(satShader)
 
     const view = new android.widget.ImageView(this._context);
-    // set onClickListener on the nativeView.
 
     canvas.drawCircle(50, 50, 50, huePaint);
     canvas.drawCircle(50, 50, 50, saturationPaint);
     canvas.drawCircle(50, 50, 50, brightnessOverlayPaint);
 
     view.setImageBitmap(bitmap);
+    // view.setOnTouchListener(touchListener);
+    view.setOnTouchListener(touchListener);
 
     return view;
   }
