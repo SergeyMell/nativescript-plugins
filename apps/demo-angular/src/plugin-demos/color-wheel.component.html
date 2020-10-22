@@ -2,7 +2,9 @@
 <StackLayout class="p-20">
 	<ScrollView class="h-full">
 		<StackLayout>
-			<Button text="Test color-wheel" (tap)="demoShared.testIt()" class="btn btn-primary"></Button>
+			<ColorWheel width="300" height="300" (colorSelect)="onColorSelected($event)"></ColorWheel>
+      <Label [text]="color"></Label>
+      <Label width="100%" height="30" [backgroundColor]="color"></Label>
 		</StackLayout>
 	</ScrollView>
 </StackLayout>
