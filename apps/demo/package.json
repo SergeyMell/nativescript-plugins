@@ -6,7 +6,8 @@
 	"dependencies": {
 		"nativescript-theme-core": "file:../../node_modules/nativescript-theme-core",
 		"@nativescript/core": "file:../../node_modules/@nativescript/core",
-		"@sergeymell/nativescript-svg": "file:../../packages/nativescript-svg"
+		"@sergeymell/nativescript-svg": "file:../../packages/nativescript-svg",
+		"@sergeymell/color-wheel": "file:../../packages/color-wheel"
 	},
 	"devDependencies": {
 		"@nativescript/android": "~7.0.0",

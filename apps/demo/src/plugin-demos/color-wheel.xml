@@ -1,0 +1,16 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" class="page"
+      xmlns:clw="@sergeymell/color-wheel">
+    <Page.actionBar>
+        <ActionBar title="color-wheel" icon="" class="action-bar">
+        </ActionBar>
+    </Page.actionBar>
+    <StackLayout class="p-20">
+        <ScrollView class="h-full">
+          <StackLayout>
+            <Label text="1"/>
+            <clw:ColorWheel width="200" height="200"/>
+            <Label text="2"/>
+          </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</Page>
