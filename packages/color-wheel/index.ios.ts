@@ -1,7 +1,4 @@
-import { Color, GridLayout, Label, LayoutBase, Trace, View } from '@nativescript/core';
-import { ColorWheelCommon } from '@sergeymell/color-wheel/common';
-import Layout = Trace.categories.Layout;
-import { Pointer } from '@nativescript/core/ui/gestures';
+import { View } from '@nativescript/core';
 
 @NativeClass
 class TapHandler extends NSObject {
@@ -99,7 +96,9 @@ export class ColorWheel extends View {
   initNativeView(): void {
     // Attach the owner to nativeView.
     // When nativeView is tapped we get the owning JS object through this field.
-
+    /**
+     * https://noahgilmore.com/blog/cifilter-colorwheel/
+     */
     const filter = CIFilter.filterWithNameWithInputParameters('CIHueSaturationValueGradient', {
       //@ts-ignore
       'inputColorSpace': CGColorSpaceCreateDeviceRGB(),

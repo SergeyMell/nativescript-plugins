@@ -10,7 +10,7 @@
 		"@sergeymell/color-wheel": "file:../../packages/color-wheel"
 	},
 	"devDependencies": {
-		"@nativescript/android": "~7.0.0",
+		"@nativescript/android": "7.0.1",
 		"@nativescript/ios": "7.0.0",
 		"@nativescript/webpack": "3.0.0",
 		"typescript": "file:../../node_modules/typescript"
