@@ -1,10 +1,14 @@
 import { ColorWheelCommon } from './common';
-import { View } from '@nativescript/core';
+import { ColorWheel as ColorWheelDefinition } from "./";
+
+import { Color, View } from '@nativescript/core';
 
 /**
  * https://medium.com/@yarolegovich/color-wheel-efficient-drawing-with-shaders-aa11c0f6e46c
  * https://github.com/yarolegovich/ColorWheelView/blob/master/app/src/main/java/com/yarolegovich/colorwheelshader/ColorWheelView.java
  * https://medium.com/@info_25865/how-to-create-a-canvas-in-nativescript-90c47b067b4b
+ *
+ * http://android-er.blogspot.com/2012/10/get-touched-pixel-color-of-scaled.html
  */
 
 let touchListener: android.view.View.OnTouchListener;
@@ -34,6 +38,12 @@ function initializeClickListener(): void {
 
     public onTouch(view: android.view.View, event: android.view.MotionEvent): boolean {
       // When native button is clicked we raise 'tap' event.
+      // if (event.getAction() !== android.view.KeyEvent.ACTION_UP) {
+      //   return true;
+      // }
+      console.log('event1');
+      console.log(event.getAction());
+      console.log(android.view.KeyEvent.ACTION_UP);
 
       const eventX = event.getX();
       const eventY = event.getY();
@@ -48,33 +58,34 @@ function initializeClickListener(): void {
       let x = eventXY[0];
       let y = eventXY[1];
 
-      console.log('touch event: ', eventX, eventY);
-      console.log('touch x: ', x, y);
-
       const imgDrawable = (<android.widget.ImageView>view).getDrawable();
       // @ts-ignore
       const bitmap = imgDrawable.getBitmap();
 
       //Limit x, y range within bitmap
-      if(x < 0){
+      if (x < 0) {
         x = 0;
-      }else if(x > bitmap.getWidth()-1){
-        x = bitmap.getWidth()-1;
+      } else if (x > bitmap.getWidth() - 1) {
+        x = bitmap.getWidth() - 1;
       }
 
-      if(y < 0){
+      if (y < 0) {
         y = 0;
-      }else if(y > bitmap.getHeight()-1){
-        y = bitmap.getHeight()-1;
+      } else if (y > bitmap.getHeight() - 1) {
+        y = bitmap.getHeight() - 1;
       }
 
       const touchedRGB = bitmap.getPixel(x, y);
 
-      const color = java.lang.Integer.toHexString(touchedRGB)
+      const color = java.lang.Integer.toHexString(touchedRGB);
 
       console.log('color');
       console.log(color);
 
+      const owner = (<any>view).owner;
+      if (owner) {
+        owner.notify({ eventName: 'colorSelect', object: new Color(touchedRGB) });
+      }
       return true;
     }
 
@@ -83,7 +94,7 @@ function initializeClickListener(): void {
   touchListener = new ClickListener();
 }
 
-export class ColorWheel extends View {
+export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition {
 
   // added for TypeScript intellisense.
   nativeView: android.widget.ImageView;
@@ -105,13 +116,13 @@ export class ColorWheel extends View {
     brightnessOverlayPaint.setAlpha(50);
 
     const colors = Array.create('int', 7);
-    colors[0] = android.graphics.Color.RED
-    colors[1] = android.graphics.Color.MAGENTA
-    colors[2] = android.graphics.Color.BLUE
-    colors[3] = android.graphics.Color.CYAN
-    colors[4] = android.graphics.Color.GREEN
-    colors[5] = android.graphics.Color.YELLOW
-    colors[6] = android.graphics.Color.RED
+    colors[0] = android.graphics.Color.RED;
+    colors[1] = android.graphics.Color.MAGENTA;
+    colors[2] = android.graphics.Color.BLUE;
+    colors[3] = android.graphics.Color.CYAN;
+    colors[4] = android.graphics.Color.GREEN;
+    colors[5] = android.graphics.Color.YELLOW;
+    colors[6] = android.graphics.Color.RED;
 
     const vars = Array.create('float', 7);
     vars[0] = 0.000;
@@ -128,7 +139,7 @@ export class ColorWheel extends View {
     const satShader = new android.graphics.RadialGradient(50, 50, 50,
       android.graphics.Color.WHITE, 0x00FFFFFF,
       android.graphics.Shader.TileMode.CLAMP);
-    saturationPaint.setShader(satShader)
+    saturationPaint.setShader(satShader);
 
     const view = new android.widget.ImageView(this._context);
 

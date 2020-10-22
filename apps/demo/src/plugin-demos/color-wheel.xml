@@ -7,9 +7,10 @@
     <StackLayout class="p-20">
         <ScrollView class="h-full">
           <StackLayout>
-            <Label text="1"/>
-            <clw:ColorWheel width="200" height="200"/>
-            <Label text="2"/>
+            <Label text="1" backgroundColor="{{color}}"/>
+            <clw:ColorWheel width="200" height="200"
+                            colorSelect="{{colorSelected}}"/>
+            <Label text="{{ color }}"/>
           </StackLayout>
         </ScrollView>
     </StackLayout>

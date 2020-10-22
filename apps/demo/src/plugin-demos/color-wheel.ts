@@ -7,4 +7,14 @@ export function navigatingTo(args: EventData) {
 	page.bindingContext = new DemoModel();
 }
 
-export class DemoModel extends DemoSharedColorWheel {}
+export class DemoModel extends DemoSharedColorWheel {
+
+  color = 'green';
+
+  colorSelected(event) {
+    console.log(event);
+    this.color = event.object;
+    this.notifyPropertyChange('color', event.object);
+  }
+
+}
