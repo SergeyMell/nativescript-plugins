@@ -7,10 +7,10 @@
     <StackLayout class="p-20">
         <ScrollView class="h-full">
           <StackLayout>
-            <Label text="1" backgroundColor="{{color}}"/>
             <clw:ColorWheel width="200" height="200"
                             colorSelect="{{colorSelected}}"/>
             <Label text="{{ color }}"/>
+            <Label width="100%" height="30" backgroundColor="{{color}}"/>
           </StackLayout>
         </ScrollView>
     </StackLayout>

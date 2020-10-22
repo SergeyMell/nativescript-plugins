@@ -1,7 +1,7 @@
 import { ColorWheelCommon } from './common';
 import { ColorWheel as ColorWheelDefinition } from "./";
 
-import { Color, View } from '@nativescript/core';
+import { Color } from '@nativescript/core';
 
 /**
  * https://medium.com/@yarolegovich/color-wheel-efficient-drawing-with-shaders-aa11c0f6e46c
@@ -38,12 +38,9 @@ function initializeClickListener(): void {
 
     public onTouch(view: android.view.View, event: android.view.MotionEvent): boolean {
       // When native button is clicked we raise 'tap' event.
-      // if (event.getAction() !== android.view.KeyEvent.ACTION_UP) {
-      //   return true;
-      // }
-      console.log('event1');
-      console.log(event.getAction());
-      console.log(android.view.KeyEvent.ACTION_UP);
+      if (event.getAction() !== android.view.KeyEvent.ACTION_UP) {
+        return true;
+      }
 
       const eventX = event.getX();
       const eventY = event.getY();
@@ -76,12 +73,6 @@ function initializeClickListener(): void {
       }
 
       const touchedRGB = bitmap.getPixel(x, y);
-
-      const color = java.lang.Integer.toHexString(touchedRGB);
-
-      console.log('color');
-      console.log(color);
-
       const owner = (<any>view).owner;
       if (owner) {
         owner.notify({ eventName: 'colorSelect', object: new Color(touchedRGB) });

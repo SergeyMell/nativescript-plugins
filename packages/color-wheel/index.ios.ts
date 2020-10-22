@@ -1,5 +1,9 @@
-import { View } from '@nativescript/core';
-
+import { ColorWheelCommon } from '@sergeymell/color-wheel/common';
+import { ColorWheel as ColorWheelDefinition } from '@sergeymell/color-wheel/index';
+import { Color } from '@nativescript/core';
+/** Continue with
+ * https://stackoverflow.com/questions/12770181/how-to-get-the-pixel-color-on-touch
+ */
 @NativeClass
 class TapHandler extends NSObject {
 
@@ -8,14 +12,10 @@ class TapHandler extends NSObject {
     // Gets the owner from the nativeView.
     const x = args.locationInView(args.view).x;
     const y = args.locationInView(args.view).y;
-    console.log('args', args.view);
-    console.log('args', args.view.image);
     let pixel = malloc(4 * interop.sizeof(interop.types.uint8));
-    console.log(1);
+
     let colorSpace = CGColorSpaceCreateDeviceRGB();
-    console.log(2);
-    let bitmapInfo = CGImageGetBitmapInfo(args.view)
-    console.log(3);
+
     let context = CGBitmapContextCreate(
       pixel,
       1,
@@ -25,41 +25,20 @@ class TapHandler extends NSObject {
       colorSpace,
       CGImageAlphaInfo.kCGImageAlphaPremultipliedFirst
     );
-    console.log('context');
-    console.log(context);
 
     CGContextTranslateCTM(context, -x, -y);
     args.view.layer.renderInContext(context)
 
+    const reference = new interop.Reference(interop.types.uint8, pixel);
 
+    const owner = (<any>args.view).owner;
+    if (owner) {
+      owner.notify({ eventName: 'colorSelect', object: new Color(reference[0], reference[1], reference[2], reference[3],) });
+    }
 
-    console.log('pixel');
-    console.log(pixel);
-
-    var reference = new interop.Reference(interop.types.uint8, pixel);
-    console.log(reference[0], reference[1], reference[2], reference[3]);
-
-    const color = UIColor.colorWithRedGreenBlueAlpha(
-      pixel[0] / 255.0,
-      pixel[1] / 255.0,
-      pixel[2] / 255.0,
-      pixel[3] / 255.0
-    )
     CGColorSpaceRelease( colorSpace );
-    console.log('color');
-    console.log(color);
-    /** Continue with
-     * https://stackoverflow.com/questions/12770181/how-to-get-the-pixel-color-on-touch
-     */
 
-    //   context.translateBy(x, y)
-  //   layer.render(in: context!)
-  //   let color = UIColor(
-  //     red: CGFloat(pixel[0]) / 255.0,
-  //     green: CGFloat(pixel[1]) / 255.0,
-  //     blue: CGFloat(pixel[2]) / 255.0,
-  //     alpha: CGFloat(pixel[3]) / 255.0
-  // )
+
   }
 
   public static ObjCExposedMethods = {
@@ -69,7 +48,7 @@ class TapHandler extends NSObject {
 
 const handler = new TapHandler();
 
-export class ColorWheel extends View {
+export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition {
 
   nativeView: UIImageView;
 
