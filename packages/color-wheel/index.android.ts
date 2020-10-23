@@ -1,4 +1,4 @@
-import { ColorWheelCommon } from './common';
+import { colorProperty, ColorWheelCommon } from './common';
 import { ColorWheel as ColorWheelDefinition } from './';
 
 import { Color } from '@nativescript/core';
@@ -76,7 +76,12 @@ function initializeClickListener(): void {
       const touchedRGB = bitmap.getPixel(x, y);
       const owner = (<any>view).owner;
       if (owner) {
-        owner.notify({ eventName: 'colorSelect', object: new Color(touchedRGB) });
+        owner.color = new Color(touchedRGB)
+        owner.colorPosition = {x, y};
+        owner.notify({
+          eventName: 'colorSelect',
+          object: owner,
+        });
       }
       return true;
     }
@@ -161,5 +166,10 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
     // without using Property or CssProperty (e.g. outside our property system - 'setNative' callbacks)
     // you have to reset it to its initial state here.
     super.disposeNativeView();
+  }
+
+  [colorProperty.setNative](value: string | Color) {
+    console.log('value');
+    console.log(value);
   }
 }

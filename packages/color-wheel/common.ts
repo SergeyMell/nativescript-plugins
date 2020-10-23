@@ -1,5 +1,11 @@
-import { View } from '@nativescript/core';
+import { Color, isIOS, Property, View } from '@nativescript/core';
 import { Screen } from '@nativescript/core/platform/index.ios';
+
+export const colorProperty = new Property<ColorWheelCommon, string>({
+  name: 'color',
+  defaultValue: '',
+  // affectsLayout: isIOS
+});
 
 export class ColorWheelCommon extends View {
 
@@ -8,6 +14,8 @@ export class ColorWheelCommon extends View {
    * to handle in views
    */
   static colorSelectEvent = 'colorSelect';
+
+  color: Color;
 
   /**
    * Define the radius of color wheel on the basis of provided sizes or screen size
@@ -25,3 +33,5 @@ export class ColorWheelCommon extends View {
     return minBound / 2;
   }
 }
+
+colorProperty.register(ColorWheelCommon);

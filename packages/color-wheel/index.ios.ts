@@ -1,4 +1,4 @@
-import { ColorWheelCommon } from '@sergeymell/color-wheel/common';
+import { colorProperty, ColorWheelCommon } from '@sergeymell/color-wheel/common';
 import { ColorWheel as ColorWheelDefinition } from '@sergeymell/color-wheel/index';
 import { Color } from '@nativescript/core';
 
@@ -28,10 +28,13 @@ class TapHandler extends NSObject {
     /** Emit selected color */
     const owner = (<any>args.view).owner;
     if (owner) {
+
       const reference = new interop.Reference(interop.types.uint8, pixel);
+      owner.color = new Color(reference[0], reference[1], reference[2], reference[3]);
+      owner.colorPosition = { x, y };
       owner.notify({
         eventName: 'colorSelect',
-        object: new Color(reference[0], reference[1], reference[2], reference[3])
+        object: owner
       });
     }
 
@@ -108,6 +111,11 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
     // without using Property or CssProperty (e.g. outside our property system - 'setNative' callbacks)
     // you have to reset it to its initial state here.
     super.disposeNativeView();
+  }
+
+  [colorProperty.setNative](value: string | Color) {
+    console.log('value');
+    console.log(value);
   }
 
 }
