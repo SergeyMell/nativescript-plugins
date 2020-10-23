@@ -73,7 +73,7 @@
 					"builder": "@nrwl/workspace:run-commands",
 					"outputs": ["dist/packages"],
 					"options": {
-						"commands": ["nx run nativescript-svg:build.all"],
+						"commands": ["nx run nativescript-svg:build.all", "nx run color-wheel:build.all"],
 						"parallel": false
 					}
 				},
@@ -125,6 +125,49 @@
 					"outputs": ["dist/packages"],
 					"options": {
 						"commands": ["nx g @nativescript/plugin-tools:focus-packages nativescript-svg"],
+						"parallel": false
+					}
+				}
+			}
+		},
+		"color-wheel": {
+			"root": "packages/color-wheel",
+			"sourceRoot": "packages/color-wheel",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/packages/color-wheel",
+						"tsConfig": "packages/color-wheel/tsconfig.json",
+						"packageJson": "packages/color-wheel/package.json",
+						"main": "packages/color-wheel/index.ts",
+						"assets": [
+							"packages/color-wheel/*.md",
+							"packages/color-wheel/index.d.ts",
+							"LICENSE",
+							{
+								"glob": "**/*",
+								"input": "packages/color-wheel/platforms/",
+								"output": "./platforms/"
+							}
+						]
+					}
+				},
+				"build.all": {
+					"builder": "@nrwl/workspace:run-commands",
+					"outputs": ["dist/packages"],
+					"options": {
+						"commands": ["nx run color-wheel:build", "node tools/scripts/build-finish.ts color-wheel"],
+						"parallel": false
+					}
+				},
+				"focus": {
+					"builder": "@nrwl/workspace:run-commands",
+					"outputs": ["dist/packages"],
+					"options": {
+						"commands": ["nx g @nativescript/plugin-tools:focus-packages color-wheel"],
 						"parallel": false
 					}
 				}

@@ -1,0 +1,35 @@
+{
+	"name": "@sergeymell/color-wheel",
+	"version": "1.0.0",
+	"description": "Simple and flexible color picker for NativeScript Core and Angular appliactions",
+	"main": "index",
+	"typings": "index.d.ts",
+	"nativescript": {
+		"platforms": {
+			"ios": "6.0.0",
+			"android": "6.0.0"
+		}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/SergeyMell/nativescript-plugins"
+	},
+	"keywords": [
+		"NativeScript",
+		"iOS",
+		"Android",
+    "Color picker",
+    "Color wheel"
+	],
+	"author": {
+		"name": "Sergey Mell",
+		"email": "sergey.mell@agilie.com"
+	},
+	"bugs": {
+		"url": "https://github.com/SergeyMell/nativescript-plugins/issues"
+	},
+	"license": "Apache-2.0",
+	"homepage": "https://github.com/SergeyMell/nativescript-plugins",
+	"readmeFilename": "README.md",
+	"bootstrapper": "@nativescript/plugin-seed"
+}

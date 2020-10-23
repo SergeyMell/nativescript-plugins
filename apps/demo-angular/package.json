@@ -15,7 +15,8 @@
 		"reflect-metadata": "file:../../node_modules/reflect-metadata",
 		"rxjs": "file:../../node_modules/rxjs",
 		"zone.js": "file:../../node_modules/zone.js",
-		"@sergeymell/nativescript-svg": "file:../../dist/packages/nativescript-svg"
+		"@sergeymell/nativescript-svg": "file:../../dist/packages/nativescript-svg",
+		"@sergeymell/color-wheel": "file:../../dist/packages/color-wheel"
 	},
 	"devDependencies": {
 		"@angular/compiler-cli": "file:../../node_modules/@angular/compiler-cli",

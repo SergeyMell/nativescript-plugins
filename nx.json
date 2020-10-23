@@ -25,6 +25,9 @@
 		},
 		"nativescript-svg": {
 			"tags": []
+		},
+		"color-wheel": {
+			"tags": []
 		}
 	},
 	"workspaceLayout": {

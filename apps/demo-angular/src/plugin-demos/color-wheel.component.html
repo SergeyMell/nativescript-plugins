@@ -1,0 +1,13 @@
+<ActionBar title="color-wheel" class="action-bar"> </ActionBar>
+<StackLayout class="p-20">
+	<ScrollView class="h-full">
+		<StackLayout>
+      <Label [text]="color" width="100%" height="50" margin="20" textAlignment="center"
+             [backgroundColor]="color">
+      </Label>
+      <Button text="Change Color" (tap)="changeColorModal()" width="200"
+              backgroundColor="#F2F4F8" height="48" borderRadius="24" fontSize="16">
+      </Button>
+		</StackLayout>
+	</ScrollView>
+</StackLayout>
