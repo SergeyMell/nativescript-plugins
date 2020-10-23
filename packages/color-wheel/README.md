@@ -14,10 +14,10 @@ is not based on any additional libraries, CocoaPods etc
 ### Examples
 |Color wheel with custom selection picker|Color picker in a modal dialog|
 |---|---|
-|![][1]|[][2]|
+|![][1]|![][2]|
 
-[1]: https://github.com/SergeyMell/nativescript-plugins/blob/assets/android-with-picker.gif?raw=true)|![Custom selection](https://github.com/SergeyMell/nativescript-plugins/blob/assets/ios-modal.gif?raw=true
-[2]: https://github.com/SergeyMell/nativescript-plugins/blob/assets/ios-modal.gif?raw=true)|![Custom selection](https://github.com/SergeyMell/nativescript-plugins/blob/assets/ios-modal.gif?raw=true
+[1]: https://github.com/SergeyMell/nativescript-plugins/blob/assets/android-with-picker.gif?raw=true
+[2]: https://github.com/SergeyMell/nativescript-plugins/blob/assets/ios-modal.gif?raw=true
 
 ## Installation
 ```javascript
