@@ -28,7 +28,6 @@ export class DemoModel extends DemoSharedColorWheel {
   }
 
   private normalizedCoordinate(coord: number): number {
-    console.log('coord', coord);
     coord -= 15;
     if (coord < 0) {
       return 0;

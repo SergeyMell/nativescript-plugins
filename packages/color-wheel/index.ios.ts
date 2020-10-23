@@ -30,10 +30,10 @@ class TapHandler extends NSObject {
     args.view.layer.renderInContext(context);
 
     /** Emit selected color */
+    const reference = new interop.Reference(interop.types.uint8, pixel);
     const owner = (<any>args.view).owner;
-    if (owner) {
 
-      const reference = new interop.Reference(interop.types.uint8, pixel);
+    if (reference.value && owner) {
       owner.notify({
         eventName: 'colorSelect',
         object: Object.assign({}, owner, {

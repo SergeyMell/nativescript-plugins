@@ -59,11 +59,6 @@ function initializeClickListener(): void {
       let x = eventXY[0];
       let y = eventXY[1];
 
-      console.log('---------');
-      console.log(eventXY[0], eventXY[1]);
-      console.log(x, y);
-      console.log('=========');
-
       // Limit x, y range within bitmap
       if (x < 0) {
         x = 0;
@@ -80,7 +75,7 @@ function initializeClickListener(): void {
       /** Get color at the point of tap */
       const touchedRGB = bitmap.getPixel(x, y);
       const owner = (<any>view).owner;
-      if (owner) {
+      if (touchedRGB && owner) {
         owner.notify({
           eventName: 'colorSelect',
           object: Object.assign({}, owner, {
