@@ -8,7 +8,7 @@
         <ScrollView class="h-full">
           <StackLayout>
             <AbsoluteLayout width="200">
-            <clw:ColorWheel width="200" height="200" color="red"
+            <clw:ColorWheel width="200" height="200" color="#FFB35E"
                             colorSelect="{{colorSelected}}"/>
               <Label width="{{picker.size}}" height="{{picker.size}}" borderWidth="{{picker.borderWidth}}"
                      borderColor="#d3d3d3" left="{{x}}" top="{{y}}"

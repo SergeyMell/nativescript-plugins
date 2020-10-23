@@ -2,9 +2,12 @@
 <StackLayout class="p-20">
 	<ScrollView class="h-full">
 		<StackLayout>
-			<ColorWheel width="300" height="300" (colorSelect)="onColorSelected($event)"></ColorWheel>
-      <Label [text]="color"></Label>
-      <Label width="100%" height="30" [backgroundColor]="color"></Label>
+      <Label [text]="color" width="100%" height="50" margin="20" textAlignment="center"
+             [backgroundColor]="color">
+      </Label>
+      <Button text="Change Color" (tap)="changeColorModal()" width="200"
+              backgroundColor="#F2F4F8" height="48" borderRadius="24" fontSize="16">
+      </Button>
 		</StackLayout>
 	</ScrollView>
 </StackLayout>
