@@ -17,7 +17,7 @@ export class DemoModel extends DemoSharedColorWheel {
     borderWidth: 2
   };
 
-  color = '#FF0000';
+  color = '#0000FF';
   x = 100 - 15;
   y = 100 - 15;
 
@@ -28,8 +28,8 @@ export class DemoModel extends DemoSharedColorWheel {
   }
 
   private normalizedCoordinate(coord: number): number {
+    console.log('coord', coord);
     coord -= 15;
-    console.log(coord);
     if (coord < 0) {
       return 0;
     } else if (coord > this.colorWheel.size - this.picker.size) {

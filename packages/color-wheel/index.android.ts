@@ -59,6 +59,11 @@ function initializeClickListener(): void {
       let x = eventXY[0];
       let y = eventXY[1];
 
+      console.log('---------');
+      console.log(eventXY[0], eventXY[1]);
+      console.log(x, y);
+      console.log('=========');
+
       // Limit x, y range within bitmap
       if (x < 0) {
         x = 0;
@@ -76,11 +81,13 @@ function initializeClickListener(): void {
       const touchedRGB = bitmap.getPixel(x, y);
       const owner = (<any>view).owner;
       if (owner) {
-        owner.color = new Color(touchedRGB)
-        owner.colorPosition = {x, y};
         owner.notify({
           eventName: 'colorSelect',
-          object: owner,
+          object: Object.assign({}, owner, {
+            isFirstChange: false,
+            color: new Color(touchedRGB),
+            colorPosition: { x, y }
+          })
         });
       }
       return true;
@@ -168,8 +175,45 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
     super.disposeNativeView();
   }
 
+  /**
+   * TODO: This is an algorithm of full range. It's definitely not optimal
+   *       should think about something better
+   */
   [colorProperty.setNative](value: string | Color) {
-    console.log('value');
-    console.log(value);
+    const color = value instanceof Color ? value : new Color(value);
+
+    const imgDrawable = this.nativeView.getDrawable();
+    // @ts-ignore
+    const bitmap = imgDrawable.getBitmap();
+    const bitmapWidth = bitmap.getWidth();
+    const bitmapHeight = bitmap.getHeight();
+
+    let resX = -1;
+    let resY = -1;
+    let metrics = 10;
+    for (let x = 0; x < bitmapWidth; x++) {
+      for (let y = 0; y < bitmapHeight; y++) {
+        const touchedRGB = bitmap.getPixel(x, y);
+        const touchedColor = new Color(touchedRGB);
+        const distance = Math.abs(touchedColor.r - color.r) +
+          Math.abs(touchedColor.g - color.g) +
+          Math.abs(touchedColor.b - color.b);
+        if (distance < metrics) {
+          metrics = distance;
+          resX = x;
+          resY = y;
+        }
+      }
+    }
+    if (resX > -1 && resY > -1) {
+      this.notify({
+        eventName: 'colorSelect',
+        object: Object.assign({}, this, {
+          isFirstChange: true,
+          color,
+          colorPosition: { x: resX, y: resY }
+        })
+      });
+    }
   }
 }

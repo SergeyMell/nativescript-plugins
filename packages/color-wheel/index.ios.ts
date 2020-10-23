@@ -1,6 +1,10 @@
 import { colorProperty, ColorWheelCommon } from '@sergeymell/color-wheel/common';
 import { ColorWheel as ColorWheelDefinition } from '@sergeymell/color-wheel/index';
 import { Color } from '@nativescript/core';
+import { Properties } from '@nativescript/core/ui/animation/animation-common';
+import width = Properties.width;
+import height = Properties.height;
+import { blueOffset, greenOffset, redOffset } from '@sergeymell/color-wheel/utils.ios';
 
 /**
  * Tap handler implementation
@@ -30,11 +34,13 @@ class TapHandler extends NSObject {
     if (owner) {
 
       const reference = new interop.Reference(interop.types.uint8, pixel);
-      owner.color = new Color(reference[0], reference[1], reference[2], reference[3]);
-      owner.colorPosition = { x, y };
       owner.notify({
         eventName: 'colorSelect',
-        object: owner
+        object: Object.assign({}, owner, {
+          isFirstChange: false,
+          color: new Color(reference[0], reference[1], reference[2], reference[3]),
+          colorPosition: { x, y }
+        })
       });
     }
 
@@ -66,13 +72,7 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
 
     imageView.addGestureRecognizer(tap);
     imageView.userInteractionEnabled = true;
-    return imageView;
-  }
 
-  /**
-   * Initializes properties/listeners of the native view.
-   */
-  initNativeView(): void {
     /**
      * Generating color wheel by means of **CIFilter**
      * [Post with details]{@link https://noahgilmore.com/blog/cifilter-colorwheel}
@@ -86,8 +86,14 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
       'inputValue': 1
     });
     const image = new UIImage(filter.outputImage);
-    this.nativeView.image = image;
+    imageView.image = image;
+    return imageView;
+  }
 
+  /**
+   * Initializes properties/listeners of the native view.
+   */
+  initNativeView(): void {
     /**
      * Attach the owner to nativeView.
      * When nativeView is tapped we get the owning JS object through this field.
@@ -113,9 +119,66 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
     super.disposeNativeView();
   }
 
+  /**
+   * TODO: This is an algorithm of full range. It's definitely not optimal
+   *       should think about something better
+   * Determination of point coordinates by color is done according to
+   * {@link https://stackoverflow.com/questions/18170398/how-to-get-location-of-a-specified-color-in-an-uiimage}
+   * {@link https://github.com/erica/iOS-6-Advanced-Cookbook/blob/master/C06%20-%20Images/04%20-%20Rotation%20Accelerate/UIImage-Utils.m}
+   */
   [colorProperty.setNative](value: string | Color) {
-    console.log('value');
-    console.log(value);
+    const color = value instanceof Color ? value : new Color(value);
+
+    const width = this.nativeView.image.size.width;
+    const height = this.nativeView.image.size.height;
+
+    let colorSpace = CGColorSpaceCreateDeviceRGB();
+    let bitmapData = malloc(4 * width * height);
+    let context =
+      CGBitmapContextCreate(bitmapData, width, height, 8, width * 4,
+        colorSpace, CGImageAlphaInfo.kCGImageAlphaPremultipliedFirst);
+
+    const rect = CGRectMake(50, 50, width, height);
+    const cgImage = CIContext.new().createCGImageFromRect(this.nativeView.image.CIImage, rect);
+
+    CGContextDrawImage(context, rect, cgImage);
+
+    const reference = new interop.Reference(interop.types.uint8, bitmapData);
+
+    let resX = -1;
+    let resY = -1;
+    let metrics = Infinity;
+    for (let x = 0; x < width; x++) {
+      for (let y = 0; y < height; y++) {
+        const red = reference[redOffset(x, y, width)];
+        const green = reference[greenOffset(x, y, width)];
+        const blue = reference[blueOffset(x, y, width)];
+        const distance = Math.abs(red - color.r) +
+          Math.abs(green - color.g) +
+          Math.abs(blue - color.b);
+        if (distance < metrics) {
+          metrics = distance;
+          resX = x;
+          resY = y;
+        }
+      }
+    }
+    /** Release allocated memory */
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(context);
+    free(bitmapData);
+
+    if (resX > -1 && resY > -1) {
+      this.notify({
+        eventName: 'colorSelect',
+        object: Object.assign({}, this, {
+          isFirstChange: true,
+          color,
+          colorPosition: { x: resX, y: resY }
+        })
+      });
+    }
+
   }
 
 }
