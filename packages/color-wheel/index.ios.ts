@@ -1,48 +1,47 @@
 import { ColorWheelCommon } from '@sergeymell/color-wheel/common';
 import { ColorWheel as ColorWheelDefinition } from '@sergeymell/color-wheel/index';
 import { Color } from '@nativescript/core';
-/** Continue with
- * https://stackoverflow.com/questions/12770181/how-to-get-the-pixel-color-on-touch
+
+/**
+ * Tap handler implementation
+ * [Documentation]{@link https://stackoverflow.com/questions/12770181/how-to-get-the-pixel-color-on-touch}
  */
 @NativeClass
 class TapHandler extends NSObject {
 
   public tap(args) {
+    /** Define tap position */
+    const position = args.locationInView(args.view);
+    const x = position.x;
+    const y = position.y;
 
-    // Gets the owner from the nativeView.
-    const x = args.locationInView(args.view).x;
-    const y = args.locationInView(args.view).y;
+    /** Draw 1 pixel canvas in place */
     let pixel = malloc(4 * interop.sizeof(interop.types.uint8));
-
     let colorSpace = CGColorSpaceCreateDeviceRGB();
-
-    let context = CGBitmapContextCreate(
-      pixel,
-      1,
-      1,
-      8,
-      4,
-      colorSpace,
-      CGImageAlphaInfo.kCGImageAlphaPremultipliedFirst
-    );
+    let context =
+      CGBitmapContextCreate(pixel, 1, 1, 8, 4,
+        colorSpace, CGImageAlphaInfo.kCGImageAlphaPremultipliedFirst);
 
     CGContextTranslateCTM(context, -x, -y);
-    args.view.layer.renderInContext(context)
+    args.view.layer.renderInContext(context);
 
-    const reference = new interop.Reference(interop.types.uint8, pixel);
-
+    /** Emit selected color */
     const owner = (<any>args.view).owner;
     if (owner) {
-      owner.notify({ eventName: 'colorSelect', object: new Color(reference[0], reference[1], reference[2], reference[3],) });
+      const reference = new interop.Reference(interop.types.uint8, pixel);
+      owner.notify({
+        eventName: 'colorSelect',
+        object: new Color(reference[0], reference[1], reference[2], reference[3])
+      });
     }
 
-    CGColorSpaceRelease( colorSpace );
-
-
+    /** Release allocated memory */
+    CGColorSpaceRelease(colorSpace);
+    free(pixel);
   }
 
   public static ObjCExposedMethods = {
-    "tap": { returns: interop.types.void, params: [interop.types.id, interop.types.id] }
+    'tap': { returns: interop.types.void, params: [interop.types.id, interop.types.id] }
   };
 }
 
@@ -52,9 +51,7 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
 
   nativeView: UIImageView;
 
-  /**
-   * Creates new image view.
-   */
+  /** Creates new image view. */
   public createNativeView(): Object {
     const imageView = UIImageView.new();
 
@@ -66,29 +63,31 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
     imageView.addGestureRecognizer(tap);
     imageView.userInteractionEnabled = true;
     return imageView;
-
   }
 
   /**
    * Initializes properties/listeners of the native view.
    */
   initNativeView(): void {
-    // Attach the owner to nativeView.
-    // When nativeView is tapped we get the owning JS object through this field.
     /**
-     * https://noahgilmore.com/blog/cifilter-colorwheel/
+     * Generating color wheel by means of **CIFilter**
+     * [Post with details]{@link https://noahgilmore.com/blog/cifilter-colorwheel}
      */
     const filter = CIFilter.filterWithNameWithInputParameters('CIHueSaturationValueGradient', {
       //@ts-ignore
       'inputColorSpace': CGColorSpaceCreateDeviceRGB(),
       'inputDither': 0,
-      'inputRadius': this.width,
+      'inputRadius': this.radius,
       'inputSoftness': 0,
       'inputValue': 1
     });
     const image = new UIImage(filter.outputImage);
     this.nativeView.image = image;
 
+    /**
+     * Attach the owner to nativeView.
+     * When nativeView is tapped we get the owning JS object through this field.
+     */
     (<any>this.nativeView).owner = this;
     super.initNativeView();
   }

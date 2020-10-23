@@ -1,5 +1,6 @@
-import { ColorWheelCommon } from './common';
-
+/**
+ * Declare color wheel definitions
+ */
 export declare class ColorWheel extends View {
 
   static colorSelectEvent = 'colorSelect';

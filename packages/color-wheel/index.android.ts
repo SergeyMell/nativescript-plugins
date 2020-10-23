@@ -1,23 +1,23 @@
 import { ColorWheelCommon } from './common';
-import { ColorWheel as ColorWheelDefinition } from "./";
+import { ColorWheel as ColorWheelDefinition } from './';
 
 import { Color } from '@nativescript/core';
+import { colorDistribution, colorSpectra } from '@sergeymell/color-wheel/utils.android';
 
-/**
- * https://medium.com/@yarolegovich/color-wheel-efficient-drawing-with-shaders-aa11c0f6e46c
- * https://github.com/yarolegovich/ColorWheelView/blob/master/app/src/main/java/com/yarolegovich/colorwheelshader/ColorWheelView.java
- * https://medium.com/@info_25865/how-to-create-a-canvas-in-nativescript-90c47b067b4b
- *
- * http://android-er.blogspot.com/2012/10/get-touched-pixel-color-of-scaled.html
- */
+const DEFAULT_ALPHA = 50;
 
 let touchListener: android.view.View.OnTouchListener;
 
-// NOTE: ClickListenerImpl is in function instead of directly in the module because we
-// want this file to be compatible with V8 snapshot. When V8 snapshot is created
-// JS is loaded into memory, compiled & saved as binary file which is later loaded by
-// Android runtime. Thus when snapshot is created we don't have Android runtime and
-// we don't have access to native types.
+/**
+ * Implementation of color getter is done on the basis of
+ * {@link http://android-er.blogspot.com/2012/10/get-touched-pixel-color-of-scaled.html}
+ *
+ * @NOTE: ClickListenerImpl is in function instead of directly in the module because we
+ * want this file to be compatible with V8 snapshot. When V8 snapshot is created
+ * JS is loaded into memory, compiled & saved as binary file which is later loaded by
+ * Android runtime. Thus when snapshot is created we don't have Android runtime and
+ * we don't have access to native types.
+ */
 function initializeClickListener(): void {
   // Define ClickListener class only once.
   if (touchListener) {
@@ -37,16 +37,20 @@ function initializeClickListener(): void {
     }
 
     public onTouch(view: android.view.View, event: android.view.MotionEvent): boolean {
-      // When native button is clicked we raise 'tap' event.
+      // Handle only tap end
       if (event.getAction() !== android.view.KeyEvent.ACTION_UP) {
         return true;
       }
 
-      const eventX = event.getX();
-      const eventY = event.getY();
+      /** Get the rendered bitmap  */
+      const imgDrawable = (<android.widget.ImageView>view).getDrawable();
+      // @ts-ignore
+      const bitmap = imgDrawable.getBitmap();
+
+      /** Define the coordinates of the tap */
       const eventXY = Array.create('float', 2);
-      eventXY[0] = eventX;
-      eventXY[1] = eventY;
+      eventXY[0] = event.getX();
+      eventXY[1] = event.getY();
 
       const invertMatrix = new android.graphics.Matrix();
       (<android.widget.ImageView>view).getImageMatrix().invert(invertMatrix);
@@ -55,11 +59,7 @@ function initializeClickListener(): void {
       let x = eventXY[0];
       let y = eventXY[1];
 
-      const imgDrawable = (<android.widget.ImageView>view).getDrawable();
-      // @ts-ignore
-      const bitmap = imgDrawable.getBitmap();
-
-      //Limit x, y range within bitmap
+      // Limit x, y range within bitmap
       if (x < 0) {
         x = 0;
       } else if (x > bitmap.getWidth() - 1) {
@@ -72,6 +72,7 @@ function initializeClickListener(): void {
         y = bitmap.getHeight() - 1;
       }
 
+      /** Get color at the point of tap */
       const touchedRGB = bitmap.getPixel(x, y);
       const owner = (<any>view).owner;
       if (owner) {
@@ -85,61 +86,53 @@ function initializeClickListener(): void {
   touchListener = new ClickListener();
 }
 
+/**
+ * Drawing of color wheel is implementing accourding the the next posts
+ * {@link https://medium.com/@yarolegovich/color-wheel-efficient-drawing-with-shaders-aa11c0f6e46c}
+ * {@link https://github.com/yarolegovich/ColorWheelView/blob/master/app/src/main/java/com/yarolegovich/colorwheelshader/ColorWheelView.java}
+ * {@link https://medium.com/@info_25865/how-to-create-a-canvas-in-nativescript-90c47b067b4b}
+ */
 export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition {
 
   // added for TypeScript intellisense.
   nativeView: android.widget.ImageView;
 
-  /**
-   * Creates new native button.
-   */
   public createNativeView(): Object {
-    // Create new instance of android.widget.Button.
-    const bitmap = android.graphics.Bitmap.createBitmap(100, 100, android.graphics.Bitmap.Config.ARGB_8888);
+    /** Define all the instances to operate with */
+    const radius = this.radius;
+    const view = new android.widget.ImageView(this._context);
+    const bitmap = android.graphics.Bitmap.createBitmap(
+      2 * radius, 2 * radius,
+      android.graphics.Bitmap.Config.ARGB_8888
+    );
     const canvas = new android.graphics.Canvas(bitmap);
 
+    /** Generate click listener instance */
     initializeClickListener();
 
+    /** Define shaders */
     const huePaint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
-    const saturationPaint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
-    const brightnessOverlayPaint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
-    brightnessOverlayPaint.setColor(android.graphics.Color.BLACK);
-    brightnessOverlayPaint.setAlpha(50);
-
-    const colors = Array.create('int', 7);
-    colors[0] = android.graphics.Color.RED;
-    colors[1] = android.graphics.Color.MAGENTA;
-    colors[2] = android.graphics.Color.BLUE;
-    colors[3] = android.graphics.Color.CYAN;
-    colors[4] = android.graphics.Color.GREEN;
-    colors[5] = android.graphics.Color.YELLOW;
-    colors[6] = android.graphics.Color.RED;
-
-    const vars = Array.create('float', 7);
-    vars[0] = 0.000;
-    vars[1] = 0.166;
-    vars[2] = 0.333;
-    vars[3] = 0.499;
-    vars[4] = 0.666;
-    vars[5] = 0.833;
-    vars[6] = 0.999;
-
-    const hueShader = new android.graphics.SweepGradient(50, 50, colors, vars);
+    const hueShader = new android.graphics.SweepGradient(radius, radius, colorSpectra(), colorDistribution());
     huePaint.setShader(hueShader);
 
-    const satShader = new android.graphics.RadialGradient(50, 50, 50,
+    const saturationPaint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+    const satShader = new android.graphics.RadialGradient(radius, radius, radius,
       android.graphics.Color.WHITE, 0x00FFFFFF,
       android.graphics.Shader.TileMode.CLAMP);
     saturationPaint.setShader(satShader);
 
-    const view = new android.widget.ImageView(this._context);
+    const brightnessOverlayPaint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+    brightnessOverlayPaint.setColor(android.graphics.Color.BLACK);
+    brightnessOverlayPaint.setAlpha(DEFAULT_ALPHA);
 
-    canvas.drawCircle(50, 50, 50, huePaint);
-    canvas.drawCircle(50, 50, 50, saturationPaint);
-    canvas.drawCircle(50, 50, 50, brightnessOverlayPaint);
+    /** Draw shaders on canvas */
+    canvas.drawCircle(radius, radius, radius, huePaint);
+    canvas.drawCircle(radius, radius, radius, saturationPaint);
+    canvas.drawCircle(radius, radius, radius, brightnessOverlayPaint);
 
     view.setImageBitmap(bitmap);
-    // view.setOnTouchListener(touchListener);
+
+    /** Define listeners */
     view.setOnTouchListener(touchListener);
 
     return view;
@@ -149,8 +142,6 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
    * Initializes properties/listeners of the native view.
    */
   initNativeView(): void {
-    // Attach the owner to nativeView.
-    // When nativeView is tapped we get the owning JS object through this field.
     (<any>this.nativeView).owner = this;
     super.initNativeView();
   }
