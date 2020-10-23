@@ -121,14 +121,15 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
       android.graphics.Shader.TileMode.CLAMP);
     saturationPaint.setShader(satShader);
 
-    const brightnessOverlayPaint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
-    brightnessOverlayPaint.setColor(android.graphics.Color.BLACK);
-    brightnessOverlayPaint.setAlpha(DEFAULT_ALPHA);
+    // NOTE: This can be added to modify the brightness of the app
+    // const brightnessOverlayPaint = new android.graphics.Paint(android.graphics.Paint.ANTI_ALIAS_FLAG);
+    // brightnessOverlayPaint.setColor(android.graphics.Color.BLACK);
+    // brightnessOverlayPaint.setAlpha(DEFAULT_ALPHA);
 
     /** Draw shaders on canvas */
     canvas.drawCircle(radius, radius, radius, huePaint);
     canvas.drawCircle(radius, radius, radius, saturationPaint);
-    canvas.drawCircle(radius, radius, radius, brightnessOverlayPaint);
+    // canvas.drawCircle(radius, radius, radius, brightnessOverlayPaint);
 
     view.setImageBitmap(bitmap);
 

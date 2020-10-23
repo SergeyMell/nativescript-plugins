@@ -37,6 +37,7 @@ class TapHandler extends NSObject {
 
     /** Release allocated memory */
     CGColorSpaceRelease(colorSpace);
+    CGContextRelease(context);
     free(pixel);
   }
 
