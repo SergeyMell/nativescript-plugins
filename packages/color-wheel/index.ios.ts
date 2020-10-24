@@ -1,7 +1,6 @@
 import { colorProperty, ColorWheelCommon } from '@sergeymell/color-wheel/common';
 import { ColorWheel as ColorWheelDefinition } from '@sergeymell/color-wheel/index';
 import { Color } from '@nativescript/core';
-import { blueOffset, greenOffset, redOffset } from '@sergeymell/color-wheel/utils.ios';
 
 /**
  * Tap handler implementation
@@ -178,4 +177,16 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
 
   }
 
+}
+
+export function redOffset(x, y, w) {
+  return y * w * 4 + x * 4 + 1;
+}
+
+export function greenOffset(x, y, w) {
+  return y * w * 4 + x * 4 + 2;
+}
+
+export function blueOffset(x, y, w) {
+  return y * w * 4 + x * 4 + 3;
 }
