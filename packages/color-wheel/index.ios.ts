@@ -1,5 +1,5 @@
-import { colorProperty, ColorWheelCommon } from '@sergeymell/color-wheel/common';
-import { ColorWheel as ColorWheelDefinition } from '@sergeymell/color-wheel/index';
+import { colorProperty, ColorWheelCommon } from './common';
+import { ColorWheel as ColorWheelDefinition } from '.';
 import { Color } from '@nativescript/core';
 
 /**
