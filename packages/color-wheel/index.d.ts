@@ -3,7 +3,7 @@ import { Color, EventData } from '@nativescript/core';
 /**
  * Declare color wheel definitions
  */
-export declare class ColorWheel extends View {
+export class ColorWheel extends View {
 
   static colorSelectEvent = 'colorSelect';
 
@@ -13,7 +13,7 @@ export declare class ColorWheel extends View {
 
 export const colorProperty: Property<ColorWheel, string | Color>;
 
-export declare interface ColorSelectEvent {
+export interface ColorSelectEvent {
   color: Color;
   position: {
     x: number;

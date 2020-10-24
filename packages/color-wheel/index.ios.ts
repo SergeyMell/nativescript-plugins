@@ -1,9 +1,6 @@
 import { colorProperty, ColorWheelCommon } from '@sergeymell/color-wheel/common';
 import { ColorWheel as ColorWheelDefinition } from '@sergeymell/color-wheel/index';
 import { Color } from '@nativescript/core';
-import { Properties } from '@nativescript/core/ui/animation/animation-common';
-import width = Properties.width;
-import height = Properties.height;
 import { blueOffset, greenOffset, redOffset } from '@sergeymell/color-wheel/utils.ios';
 
 /**

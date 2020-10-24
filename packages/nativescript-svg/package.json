@@ -1,30 +1,30 @@
 {
-	"name": "@sergeymell/nativescript-svg",
-	"version": "1.0.0",
-	"description": "Nativescript SVG plugin",
-	"main": "index",
-	"typings": "index.d.ts",
-	"nativescript": {
-		"platforms": {
-			"ios": "6.0.0",
-			"android": "6.0.0"
-		}
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/SergeyMell/nativescript-plugins"
-	},
-	"keywords": [
-		"NativeScript",
-		"JavaScript",
-		"TypeScript",
-		"iOS",
-		"Android"
-	],
-	"author": {
-		"name": "Victor Sosa",
-		"email": "victor.sosa@peopleware.do"
-	},
+  "name": "@sergeymell/nativescript-svg",
+  "version": "1.0.3",
+  "description": "Nativescript SVG plugin",
+  "main": "index",
+  "typings": "index.d.ts",
+  "nativescript": {
+    "platforms": {
+      "ios": "6.0.0",
+      "android": "6.0.0"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SergeyMell/nativescript-plugins"
+  },
+  "keywords": [
+    "NativeScript",
+    "JavaScript",
+    "TypeScript",
+    "iOS",
+    "Android"
+  ],
+  "author": {
+    "name": "Victor Sosa",
+    "email": "victor.sosa@peopleware.do"
+  },
   "contributors": [
     {
       "name": "Brad Martin",
@@ -38,10 +38,10 @@
     }
   ],
   "bugs": {
-		"url": "https://github.com/SergeyMell/nativescript-plugins/issues"
-	},
-	"license": "Apache-2.0",
-	"homepage": "https://github.com/SergeyMell/nativescript-plugins",
-	"readmeFilename": "README.md",
-	"bootstrapper": "@nativescript/plugin-seed"
+    "url": "https://github.com/SergeyMell/nativescript-plugins/issues"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/SergeyMell/nativescript-plugins",
+  "readmeFilename": "README.md",
+  "bootstrapper": "@nativescript/plugin-seed"
 }
