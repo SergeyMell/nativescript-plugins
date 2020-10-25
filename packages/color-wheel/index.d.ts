@@ -1,4 +1,6 @@
 import { Color, EventData } from '@nativescript/core';
+import { Property } from '@nativescript/core/ui/core';
+import { View } from '@nativescript/core/ui/core/view';
 
 /**
  * Declare color wheel definitions
