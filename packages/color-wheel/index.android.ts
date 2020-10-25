@@ -1,7 +1,7 @@
-import { colorProperty, ColorWheelCommon } from './common';
+import * as common from './common';
 import { ColorWheel as ColorWheelDefinition } from '.';
-
 import { Color } from '@nativescript/core';
+global.moduleMerge(common, exports);
 
 const DEFAULT_ALPHA = 50;
 
@@ -98,7 +98,7 @@ function initializeClickListener(): void {
  * {@link https://github.com/yarolegovich/ColorWheelView/blob/master/app/src/main/java/com/yarolegovich/colorwheelshader/ColorWheelView.java}
  * {@link https://medium.com/@info_25865/how-to-create-a-canvas-in-nativescript-90c47b067b4b}
  */
-export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition {
+export class ColorWheel extends common.ColorWheelCommon implements ColorWheelDefinition {
 
   // added for TypeScript intellisense.
   nativeView: android.widget.ImageView;
@@ -173,7 +173,7 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
    * TODO: This is an algorithm of full range. It's definitely not optimal
    *       should think about something better
    */
-  [colorProperty.setNative](value: string | Color) {
+  [common.colorProperty.setNative](value: string | Color) {
     const color = value instanceof Color ? value : new Color(value);
 
     const imgDrawable = this.nativeView.getDrawable();

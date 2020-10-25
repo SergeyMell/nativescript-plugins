@@ -1,6 +1,7 @@
-import { colorProperty, ColorWheelCommon } from './common';
+import * as common from './common';
 import { ColorWheel as ColorWheelDefinition } from '.';
 import { Color } from '@nativescript/core';
+global.moduleMerge(common, exports);
 
 /**
  * Tap handler implementation
@@ -53,7 +54,7 @@ class TapHandler extends NSObject {
 
 const handler = new TapHandler();
 
-export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition {
+export class ColorWheel extends common.ColorWheelCommon implements ColorWheelDefinition {
 
   nativeView: UIImageView;
 
@@ -122,7 +123,7 @@ export class ColorWheel extends ColorWheelCommon implements ColorWheelDefinition
    * {@link https://stackoverflow.com/questions/18170398/how-to-get-location-of-a-specified-color-in-an-uiimage}
    * {@link https://github.com/erica/iOS-6-Advanced-Cookbook/blob/master/C06%20-%20Images/04%20-%20Rotation%20Accelerate/UIImage-Utils.m}
    */
-  [colorProperty.setNative](value: string | Color) {
+  [common.colorProperty.setNative](value: string | Color) {
     const color = value instanceof Color ? value : new Color(value);
 
     const width = this.nativeView.image.size.width;
