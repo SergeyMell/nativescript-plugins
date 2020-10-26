@@ -1,8 +1,6 @@
 import { Component, NgZone, ViewContainerRef } from '@angular/core';
-import { DemoSharedColorWheel } from '@demo/shared';
-import {} from '@sergeymell/color-wheel';
 import { Color } from '@nativescript/core';
-import { ModalDialogParams, ModalDialogService } from '@nativescript/angular';
+import { ModalDialogService } from '@nativescript/angular';
 
 @Component({
   selector: 'ColorPickerModal',
@@ -27,7 +25,7 @@ export class ColorPickerModalComponent {
 
 @Component({
   selector: 'demo-color-wheel',
-  templateUrl: 'color-wheel.component.html'
+  templateUrl: 'nativescript-color-wheel.component.html'
 })
 export class ColorWheelComponent {
   color: Color = new Color('#8A87FF');

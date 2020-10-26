@@ -7,7 +7,7 @@ import { HomeComponent } from './home.component';
 const routes: Routes = [
 	{ path: '', redirectTo: '/home', pathMatch: 'full' },
 	{ path: 'home', component: HomeComponent },
-	{ path: 'color-wheel', loadChildren: () => import('./plugin-demos/color-wheel.module').then((m) => m.ColorWheelModule) },
+	{ path: 'nativescript-color-wheel', loadChildren: () => import('./plugin-demos/nativescript-color-wheel.module').then((m) => m.NativescriptColorWheelModule) },
 	{ path: 'nativescript-svg', loadChildren: () => import('./plugin-demos/nativescript-svg.module').then((m) => m.NativescriptSvgModule) },
 ];
 

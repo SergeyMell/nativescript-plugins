@@ -77,6 +77,13 @@ module.exports = {
 					description: '@sergeymell/color-wheel: Build',
 				},
 			},
+			// @sergeymell/nativescript-color-wheel
+			'nativescript-color-wheel': {
+				build: {
+					script: 'nx run nativescript-color-wheel:build.all',
+					description: '@sergeymell/nativescript-color-wheel: Build',
+				},
+			},
 			'build-all': {
 				script: 'nx run all:build',
 				description: 'Build all packages',
@@ -94,6 +101,10 @@ module.exports = {
 			'color-wheel': {
 				script: 'nx run color-wheel:focus',
 				description: 'Focus on @sergeymell/color-wheel',
+			},
+			'nativescript-color-wheel': {
+				script: 'nx run nativescript-color-wheel:focus',
+				description: 'Focus on @sergeymell/nativescript-color-wheel',
 			},
 			reset: {
 				script: 'nx run all:focus',

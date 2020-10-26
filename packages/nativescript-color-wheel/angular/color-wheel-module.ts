@@ -9,4 +9,4 @@ import { DIRECTIVES } from './color-wheel-directives';
 })
 export class NativeScriptColorWheelModule {}
 
-registerElement('ColorWheel', () => require('@sergeymell/color-wheel').ColorWheel);
+registerElement('ColorWheel', () => require('@sergeymell/nativescript-color-wheel').ColorWheel);

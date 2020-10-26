@@ -1,6 +1,6 @@
 {
-  "name": "@sergeymell/color-wheel",
-  "version": "1.0.7",
+  "name": "@sergeymell/nativescript-color-wheel",
+  "version": "1.0.10",
   "description": "Simple and flexible color picker for NativeScript Core and Angular appliactions",
   "main": "index",
   "typings": "index.d.ts",

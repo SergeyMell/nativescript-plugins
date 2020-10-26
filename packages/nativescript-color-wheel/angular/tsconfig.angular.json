@@ -4,7 +4,7 @@
 		"types": ["node"],
 		"baseUrl": ".",
 		"paths": {
-			"@sergeymell/color-wheel": ["../../../dist/packages/color-wheel"]
+			"@sergeymell/nativescript-color-wheel": ["../../../dist/packages/nativescript-color-wheel"]
 		}
 	}
 }

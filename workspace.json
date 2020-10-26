@@ -73,7 +73,7 @@
 					"builder": "@nrwl/workspace:run-commands",
 					"outputs": ["dist/packages"],
 					"options": {
-						"commands": ["nx run nativescript-svg:build.all", "nx run color-wheel:build.all"],
+						"commands": ["nx run nativescript-svg:build.all", "nx run nativescript-color-wheel:build.all"],
 						"parallel": false
 					}
 				},
@@ -130,26 +130,26 @@
 				}
 			}
 		},
-		"color-wheel": {
-			"root": "packages/color-wheel",
-			"sourceRoot": "packages/color-wheel",
+		"nativescript-color-wheel": {
+			"root": "packages/nativescript-color-wheel",
+			"sourceRoot": "packages/nativescript-color-wheel",
 			"projectType": "library",
 			"schematics": {},
 			"architect": {
 				"build": {
 					"builder": "@nrwl/node:package",
 					"options": {
-						"outputPath": "dist/packages/color-wheel",
-						"tsConfig": "packages/color-wheel/tsconfig.json",
-						"packageJson": "packages/color-wheel/package.json",
-						"main": "packages/color-wheel/index.ts",
+						"outputPath": "dist/packages/nativescript-color-wheel",
+						"tsConfig": "packages/nativescript-color-wheel/tsconfig.json",
+						"packageJson": "packages/nativescript-color-wheel/package.json",
+						"main": "packages/nativescript-color-wheel/index.ts",
 						"assets": [
-							"packages/color-wheel/*.md",
-							"packages/color-wheel/index.d.ts",
+							"packages/nativescript-color-wheel/*.md",
+							"packages/nativescript-color-wheel/index.d.ts",
 							"LICENSE",
 							{
 								"glob": "**/*",
-								"input": "packages/color-wheel/platforms/",
+								"input": "packages/nativescript-color-wheel/platforms/",
 								"output": "./platforms/"
 							}
 						]
@@ -159,7 +159,7 @@
 					"builder": "@nrwl/workspace:run-commands",
 					"outputs": ["dist/packages"],
 					"options": {
-						"commands": ["nx run color-wheel:build", "node tools/scripts/build-finish.ts color-wheel"],
+						"commands": ["nx run nativescript-color-wheel:build", "node tools/scripts/build-finish.ts nativescript-color-wheel"],
 						"parallel": false
 					}
 				},
@@ -167,7 +167,7 @@
 					"builder": "@nrwl/workspace:run-commands",
 					"outputs": ["dist/packages"],
 					"options": {
-						"commands": ["nx g @nativescript/plugin-tools:focus-packages color-wheel"],
+						"commands": ["nx g @nativescript/plugin-tools:focus-packages nativescript-color-wheel"],
 						"parallel": false
 					}
 				}

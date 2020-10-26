@@ -21,7 +21,7 @@ is not based on any additional libraries, CocoaPods etc
 
 ## Installation
 ```javascript
-ns plugin add @sergeymell/color-wheel
+ns plugin add @sergeymell/nativescript-color-wheel
 ```
 ## Usage
 ### In NativeScript Core applications:
@@ -30,7 +30,7 @@ ns plugin add @sergeymell/color-wheel
                             colorSelect="{{colorSelected}}"/>
 ```
 ### In NativeScript Angular applications:
-1. Add `NativeScriptColorWheelModule` from `@sergeymell/color-wheel/angular` to the `imports` section of your Angular module
+1. Add `NativeScriptColorWheelModule` from `@sergeymell/nativescript-color-wheel/angular` to the `imports` section of your Angular module
 2. Use the `ColorWheel` component where you need it
 ```html
 <ColorWheel width="200" height="200" margin="20"
