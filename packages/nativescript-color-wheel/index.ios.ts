@@ -2,6 +2,7 @@ import * as common from './common';
 import { ColorWheel as ColorWheelDefinition } from '.';
 import { Color } from '@nativescript/core';
 import { releaseNativeObject } from '@nativescript/core/utils';
+
 global.moduleMerge(common, exports);
 
 /**
@@ -147,6 +148,9 @@ export class ColorWheel extends common.ColorWheelCommon implements ColorWheelDef
 		let metrics = Infinity;
 		for (let x = 0; x < width; x++) {
 			for (let y = 0; y < height; y++) {
+				if ((x - this.radius) * (x - this.radius) + (y - this.radius) * (y - this.radius) >= this.radius * this.radius) {
+					continue;
+				}
 				const red = reference[redOffset(x, y, width)];
 				const green = reference[greenOffset(x, y, width)];
 				const blue = reference[blueOffset(x, y, width)];
