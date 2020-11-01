@@ -135,7 +135,7 @@ export class ColorWheel extends common.ColorWheelCommon implements ColorWheelDef
 		let bitmapData = malloc(4 * width * height);
 		let context = CGBitmapContextCreate(bitmapData, width, height, 8, width * 4, colorSpace, CGImageAlphaInfo.kCGImageAlphaPremultipliedFirst);
 
-		const rect = CGRectMake(50, 50, width, height);
+		const rect = CGRectMake(0, 0, width, height);
 		const cgImage = CIContext.new().createCGImageFromRect(this.nativeView.image.CIImage, rect);
 
 		CGContextDrawImage(context, rect, cgImage);
