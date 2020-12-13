@@ -96,7 +96,7 @@ Since ver 1.1 Implement a similar image tag to be used as for example:
 
 ```xml
 <Page xmlns="http://schemas.nativescript.org/tns.xsd"
-      xmlns:svg="nativescript-svg" loaded="pageLoaded">
+      xmlns:svg="@sergeymell/nativescript-svg" loaded="pageLoaded">
   <StackLayout>
     <!--svg image tag-->
     <svg:SVGImage src="~/image/nativescript.svg" height="100" />
