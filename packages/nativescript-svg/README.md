@@ -67,10 +67,6 @@ You use it in the same way you use Image source.
 
 - Creates a new ImageSourceSVG instance and loads it from the specified resource name.
 
-##### ImageSourceSVGModule.fromBase64(source: string): ImageSourceSVG
-
-- Creates a new ImageSourceSVG instance and loads it from the specified resource name.
-
 ##### ImageSourceSVGModule.fromUrl(url: string): Promise:ImageSourceSVG
 
 - Downloads the image from the provided Url and creates a new ImageSourceSVG instance from it.

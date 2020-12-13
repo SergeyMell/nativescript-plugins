@@ -8,8 +8,8 @@
     <StackLayout class="p-20">
         <ScrollView class="h-full">
           <StackLayout>
-            <svg:SVGImage src="~/images/nativescript.svg" width="256" height="256" />
             <svg:SVGImage src="~/images/spider.svg" width="335" height="269" />
+            <svg:SVGImage src="{{svgFile}}" width="256" height="256" />
           </StackLayout>
         </ScrollView>
     </StackLayout>
