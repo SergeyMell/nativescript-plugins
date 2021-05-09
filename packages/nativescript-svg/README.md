@@ -127,6 +127,13 @@ Use custom element in your views
 <SVGImage src="~/images/nativescript.svg" width="256" height="256"></SVGImage>
 ```
 
+## Additional info
+
+Please, refer some best practices of creating svg files
+
+- https://jwatt.org/svg/authoring/#doctype-declaration
+- https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Getting_Started
+
 ## License
 
 Apache License Version 2.0
