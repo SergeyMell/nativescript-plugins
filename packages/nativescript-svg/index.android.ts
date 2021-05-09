@@ -1,34 +1,13 @@
 /// <reference path="../../node_modules/@nativescript/types-android/lib/android-29.d.ts" />
 
-import * as svg from '.';
+import * as svg from './index';
 import * as common from './common';
 import * as types from '@nativescript/core/utils/types';
-import * as utilsModule from '@nativescript/core/utils';
-import * as fileSystemModule from '@nativescript/core/file-system';
-import * as httpModule from '@nativescript/core/http';
+import * as utils from '@nativescript/core/utils';
+import * as fs from '@nativescript/core/file-system';
+import * as http from '@nativescript/core/http';
 
 export * from './common';
-
-let http: typeof httpModule;
-function ensureHttp() {
-	if (!http) {
-		http = require('http');
-	}
-}
-
-let utils: typeof utilsModule;
-function ensureUtils() {
-	if (!utils) {
-		utils = require('utils/utils');
-	}
-}
-
-let fs: typeof fileSystemModule;
-function ensureFS() {
-	if (!fs) {
-		fs = require('file-system');
-	}
-}
 
 declare let com: any;
 
@@ -37,8 +16,6 @@ export class ImageSourceSVG implements svg.ImageSourceSVG {
 
 	public loadFromResource(name: string): boolean {
 		this.nativeView = null;
-
-		ensureUtils();
 
 		const res = utils.ad.getApplicationContext().getResources();
 		if (res) {
@@ -59,8 +36,6 @@ export class ImageSourceSVG implements svg.ImageSourceSVG {
 	}
 
 	public loadFromFile(path: string): boolean {
-		ensureFS();
-
 		let fileName = types.isString(path) ? path.trim() : '';
 		if (fileName.indexOf('~/') === 0) {
 			fileName = fs.path.join(fs.knownFolders.currentApp().path, fileName.replace('~/', ''));
@@ -100,7 +75,6 @@ export class ImageSourceSVG implements svg.ImageSourceSVG {
 	}
 
 	public fromUrl(url: string): Promise<boolean> {
-		ensureHttp();
 		const result = http.getString(url);
 		return new Promise<boolean>((resolve, reject) => {
 			result
