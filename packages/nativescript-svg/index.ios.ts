@@ -1,9 +1,14 @@
 /// <reference path="../../node_modules/@nativescript/types-ios/index.d.ts" />
 
+import { Buffer } from 'buffer'
+
 import * as svg from '.';
 import * as common from './common';
 import * as types from '@nativescript/core/utils/types';
+import * as utils from '@nativescript/core/utils';
 import * as fs from '@nativescript/core/file-system';
+import { Trace } from '@nativescript/core/trace';
+import { View } from '@nativescript/core/ui/core/view';
 
 export * from './common';
 
@@ -204,8 +209,6 @@ export class SVGImage extends common.SVGImage {
 	}
 
 	public onMeasure(widthMeasureSpec: number, heightMeasureSpec: number): void {
-		const utils = require('utils/utils');
-
 		// We don't call super because we measure native view with specific size.
 		const width = utils.layout.getMeasureSpecSize(widthMeasureSpec);
 		const widthMode = utils.layout.getMeasureSpecMode(widthMeasureSpec);
@@ -231,17 +234,13 @@ export class SVGImage extends common.SVGImage {
 			measureWidth = finiteWidth ? Math.min(resultW, width) : resultW;
 			measureHeight = finiteHeight ? Math.min(resultH, height) : resultH;
 
-			const trace = require('trace');
-
-			if (trace.enabled) {
-				trace.write('nativeWidth: ' + nativeWidth + ', nativeHeight: ' + nativeHeight, trace.categories.Layout);
+			if (Trace.enabled) {
+				Trace.write('nativeWidth: ' + nativeWidth + ', nativeHeight: ' + nativeHeight, Trace.categories.Layout);
 			}
 		}
 
-		const view = require('ui/core/view');
-
-		const widthAndState = view.View.resolveSizeAndState(measureWidth, width, widthMode, 0);
-		const heightAndState = view.View.resolveSizeAndState(measureHeight, height, heightMode, 0);
+		const widthAndState = View.resolveSizeAndState(measureWidth, width, widthMode, 0);
+		const heightAndState = View.resolveSizeAndState(measureHeight, height, heightMode, 0);
 
 		this.setMeasuredDimension(widthAndState, heightAndState);
 	}
