@@ -1,6 +1,6 @@
 /// <reference path="../../node_modules/@nativescript/types-ios/index.d.ts" />
 
-import { Buffer } from 'buffer'
+import { Buffer } from 'buffer';
 
 import * as svg from '.';
 import * as common from './common';
@@ -234,7 +234,7 @@ export class SVGImage extends common.SVGImage {
 			measureWidth = finiteWidth ? Math.min(resultW, width) : resultW;
 			measureHeight = finiteHeight ? Math.min(resultH, height) : resultH;
 
-			if (Trace.enabled) {
+			if (Trace.isEnabled()) {
 				Trace.write('nativeWidth: ' + nativeWidth + ', nativeHeight: ' + nativeHeight, Trace.categories.Layout);
 			}
 		}
