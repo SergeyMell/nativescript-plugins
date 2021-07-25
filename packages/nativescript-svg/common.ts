@@ -144,9 +144,11 @@ export function fromNativeSource(source: any): definition.ImageSourceSVG {
   return image.setNativeSource(source) ? image : null;
 }
 
-export function fromUrl(url: string): definition.ImageSourceSVG {
+export function fromUrl(url: string): Promise<definition.ImageSourceSVG> {
   const image = new definition.ImageSourceSVG();
-  return image.fromUrl(url) ? image : null;
+  return image.fromUrl(url).then(res => {
+    return res ? image : null;
+  });
 }
 
 export function fromFileOrResource(path: string): definition.ImageSourceSVG {
