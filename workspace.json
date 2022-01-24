@@ -73,7 +73,7 @@
 					"builder": "@nrwl/workspace:run-commands",
 					"outputs": ["dist/packages"],
 					"options": {
-						"commands": ["nx run nativescript-svg:build.all", "nx run nativescript-color-wheel:build.all"],
+						"commands": ["nx run nativescript-svg:build.all", "nx run nativescript-color-wheel:build.all", "nx run nativescript-sumsub:build.all"],
 						"parallel": false
 					}
 				},
@@ -168,6 +168,49 @@
 					"outputs": ["dist/packages"],
 					"options": {
 						"commands": ["nx g @nativescript/plugin-tools:focus-packages nativescript-color-wheel"],
+						"parallel": false
+					}
+				}
+			}
+		},
+		"nativescript-sumsub": {
+			"root": "packages/nativescript-sumsub",
+			"sourceRoot": "packages/nativescript-sumsub",
+			"projectType": "library",
+			"schematics": {},
+			"architect": {
+				"build": {
+					"builder": "@nrwl/node:package",
+					"options": {
+						"outputPath": "dist/packages/nativescript-sumsub",
+						"tsConfig": "packages/nativescript-sumsub/tsconfig.json",
+						"packageJson": "packages/nativescript-sumsub/package.json",
+						"main": "packages/nativescript-sumsub/index.ts",
+						"assets": [
+							"packages/nativescript-sumsub/*.md",
+							"packages/nativescript-sumsub/index.d.ts",
+							"LICENSE",
+							{
+								"glob": "**/*",
+								"input": "packages/nativescript-sumsub/platforms/",
+								"output": "./platforms/"
+							}
+						]
+					}
+				},
+				"build.all": {
+					"builder": "@nrwl/workspace:run-commands",
+					"outputs": ["dist/packages"],
+					"options": {
+						"commands": ["nx run nativescript-sumsub:build", "node tools/scripts/build-finish.ts nativescript-sumsub"],
+						"parallel": false
+					}
+				},
+				"focus": {
+					"builder": "@nrwl/workspace:run-commands",
+					"outputs": ["dist/packages"],
+					"options": {
+						"commands": ["nx g @nativescript/plugin-tools:focus-packages nativescript-sumsub"],
 						"parallel": false
 					}
 				}

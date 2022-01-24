@@ -8,6 +8,7 @@ const routes: Routes = [
 	{ path: '', redirectTo: '/home', pathMatch: 'full' },
 	{ path: 'home', component: HomeComponent },
 	{ path: 'nativescript-color-wheel', loadChildren: () => import('./plugin-demos/nativescript-color-wheel.module').then((m) => m.NativescriptColorWheelModule) },
+	{ path: 'nativescript-sumsub', loadChildren: () => import('./plugin-demos/nativescript-sumsub.module').then((m) => m.NativescriptSumsubModule) },
 	{ path: 'nativescript-svg', loadChildren: () => import('./plugin-demos/nativescript-svg.module').then((m) => m.NativescriptSvgModule) },
 ];
 

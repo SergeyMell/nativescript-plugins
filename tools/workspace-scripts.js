@@ -77,6 +77,13 @@ module.exports = {
 					description: '@sergeymell/nativescript-color-wheel: Build',
 				},
 			},
+			// @sergeymell/nativescript-sumsub
+			'nativescript-sumsub': {
+				build: {
+					script: 'nx run nativescript-sumsub:build.all',
+					description: '@sergeymell/nativescript-sumsub: Build',
+				},
+			},
 			'build-all': {
 				script: 'nx run all:build',
 				description: 'Build all packages',
@@ -94,6 +101,10 @@ module.exports = {
 			'nativescript-color-wheel': {
 				script: 'nx run nativescript-color-wheel:focus',
 				description: 'Focus on @sergeymell/nativescript-color-wheel',
+			},
+			'nativescript-sumsub': {
+				script: 'nx run nativescript-sumsub:focus',
+				description: 'Focus on @sergeymell/nativescript-sumsub',
 			},
 			reset: {
 				script: 'nx run all:focus',

@@ -28,6 +28,9 @@
 		},
 		"nativescript-color-wheel": {
 			"tags": []
+		},
+		"nativescript-sumsub": {
+			"tags": []
 		}
 	},
 	"workspaceLayout": {

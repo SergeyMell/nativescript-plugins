@@ -10,6 +10,9 @@ export class HomeComponent {
 			name: 'nativescript-color-wheel',
 		},
 		{
+			name: 'nativescript-sumsub',
+		},
+		{
 			name: 'nativescript-svg',
 		},
 	];

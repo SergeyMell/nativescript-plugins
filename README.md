@@ -17,4 +17,8 @@ The similar version of this plugin for {N}6 is available [here](https://github.c
 
 <hr>
 
+#### [@sergeymell/nativescript-sumsub](https://github.com/SergeyMell/nativescript-plugins/tree/main/packages/nativescript-sumsub)
+
+<hr>
+
 <h3 align="center">Made with ❤️ for the NativeScript community</h3>

@@ -1,0 +1,16 @@
+{
+	"name": "nativescript-nativescript-sumsub-angular",
+	"ngPackage": {
+		"lib": {
+			"entryFile": "index.ts",
+			"umdModuleIds": {
+				"@nativescript/core": "ns-core",
+				"@nativescript/angular": "ns-angular",
+				"@sergeymell/nativescript-sumsub": "ns-nativescript-sumsub"
+			}
+		},
+		"whitelistedNonPeerDependencies": [
+			"."
+		]
+	}
+}
