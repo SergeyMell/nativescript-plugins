@@ -1,0 +1,3 @@
+source 'https://github.com/SumSubstance/Specs.git'
+
+pod 'IdensicMobileSDK'

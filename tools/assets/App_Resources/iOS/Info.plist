@@ -24,6 +24,12 @@
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>NSCameraUsageDescription</key>
+  <string>Let us take a photo</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Time to record a video</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Let us pick a photo</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
